@@ -1,0 +1,23 @@
+import pytest
+from playwright.sync_api import Page, expect
+def test_add_to_cart(page:Page):
+    page.goto("https://bstackdemo.com/")
+    page.click('#signin')
+    page.get_by_text("Select Username").click()
+    page.locator("#react-select-2-option-0-0").click()
+    page.get_by_text("Select Password").click()
+    page.locator("#react-select-3-option-0-0").click()
+    page.get_by_role("button", name="Log In").click()
+    page.wait_for_timeout(5000)
+    page.locator("xpath=//*[@id='1']/div[4]").click()
+    page.get_by_title("Bag").is_visible()
+    page.get_by_text("Checkout").click()
+    page.wait_for_timeout(5000)
+    page.get_by_label("First Name").fill("testing")
+    page.get_by_label("Last Name").fill("teso")
+    page.get_by_label("Address").fill("123 testing address")
+    page.get_by_label("State/Province").fill("karnataka")
+    page.get_by_label("Postal Code").fill("560037")
+    page.get_by_role("button", name="Submit").click()
+    page.wait_for_timeout(5000)
+    page.get_by_text("Your Order has been successfully placed.").is_visible()
